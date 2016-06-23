@@ -10,6 +10,17 @@
 #include <puzzle.h>
 #include "php_libpuzzle5.h"
 
+#ifdef ZEND_ENGINE_3
+	#define PUZZLE_LEN_TYPE size_t
+#else
+	#define PUZZLE_LEN_TYPE int
+#endif
+
+#ifdef ZEND_ENGINE_3
+	#define PUZZLE_LONG_TYPE zend_long
+#else
+	#define PUZZLE_LONG_TYPE long
+#endif
 
 ZEND_DECLARE_MODULE_GLOBALS(libpuzzle5)
 
@@ -162,7 +173,7 @@ PHP_MINFO_FUNCTION(libpuzzle5)
 PHP_FUNCTION(puzzle_fill_cvec_from_file)
 {    
     char *arg = NULL;
-    int arg_len;
+    PUZZLE_LEN_TYPE arg_len;
     PuzzleContext *context;
     PuzzleCvec cvec;
     
@@ -187,7 +198,7 @@ PHP_FUNCTION(puzzle_fill_cvec_from_file)
 PHP_FUNCTION(puzzle_compress_cvec)
 {    
     char *arg = NULL;
-    int arg_len;
+    PUZZLE_LEN_TYPE arg_len;
     PuzzleContext *context;
     PuzzleCompressedCvec compressed_cvec;
     PuzzleCvec cvec;
@@ -221,7 +232,7 @@ PHP_FUNCTION(puzzle_compress_cvec)
 PHP_FUNCTION(puzzle_uncompress_cvec)
 {    
     char *arg = NULL;
-    int arg_len;
+    PUZZLE_LEN_TYPE arg_len;
     PuzzleContext *context;
     PuzzleCompressedCvec compressed_cvec;
     PuzzleCvec cvec;
@@ -254,7 +265,7 @@ PHP_FUNCTION(puzzle_uncompress_cvec)
 PHP_FUNCTION(puzzle_vector_normalized_distance)
 {    
     char *vec1 = NULL, *vec2 = NULL;
-    int vec1_len, vec2_len;
+    PUZZLE_LEN_TYPE vec1_len, vec2_len;
     PuzzleContext *context;
     PuzzleCvec cvec1, cvec2;
     double d;
@@ -290,7 +301,7 @@ PHP_FUNCTION(puzzle_vector_normalized_distance)
 PHP_FUNCTION(puzzle_set_max_width)
 {
     PuzzleContext *context;
-    long width;
+    PUZZLE_LONG_TYPE width;
     
     context = LIBPUZZLE5_G(global_context);
     if (zend_parse_parameters
@@ -310,7 +321,7 @@ PHP_FUNCTION(puzzle_set_max_width)
 PHP_FUNCTION(puzzle_set_max_height)
 {
     PuzzleContext *context;
-    long height;
+    PUZZLE_LONG_TYPE height;
     
     context = LIBPUZZLE5_G(global_context);
     if (zend_parse_parameters
@@ -330,7 +341,7 @@ PHP_FUNCTION(puzzle_set_max_height)
 PHP_FUNCTION(puzzle_set_lambdas)
 {
     PuzzleContext *context;
-    long lambdas;
+    PUZZLE_LONG_TYPE lambdas;
     
     context = LIBPUZZLE5_G(global_context);
     if (zend_parse_parameters
